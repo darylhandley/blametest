@@ -1,4 +1,4 @@
-package com.sonatype;
+package com.sonatype.blametest;
 
 /**
  * Hello world!

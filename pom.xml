@@ -7,12 +7,57 @@
   <version>1.0-SNAPSHOT</version>
   <name>blametest</name>
   <url>http://maven.apache.org</url>
+
+  <repositories>
+    <repository>
+      <id>bintray-americanexpress-maven</id>
+      <url>https://dl.bintray.com/americanexpress/maven</url>
+    </repository>
+  </repositories>
+
+
   <dependencies>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+
+    <dependency>
+      <groupId>com.apollographql.apollo</groupId>
+      <artifactId>apollo-runtime</artifactId>
+      <version>0.4.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.aexp.nodes.graphql</groupId>
+      <artifactId>nodes</artifactId>
+      <version>0.4.0-atlassian-hosted</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.mashape.unirest</groupId>
+      <artifactId>unirest-java</artifactId>
+      <version>1.4.9</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.8</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>27.1-jre</version>
+    </dependency>
+
+
   </dependencies>
 </project>
