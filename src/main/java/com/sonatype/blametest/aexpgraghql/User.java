@@ -1,8 +1,7 @@
-package com.sonatype.blametest.models;
+package com.sonatype.blametest.aexpgraghql;
 
-import io.aexp.nodes.graphql.Argument;
-import io.aexp.nodes.graphql.annotations.GraphQLArgument;
-import io.aexp.nodes.graphql.annotations.GraphQLProperty;
+import com.sonatype.blametest.aexpgraghql.RepositoryConnection;
+
 import io.aexp.nodes.graphql.annotations.GraphQLVariable;
 
 // @GraphQLProperty(name = "user", arguments = {new Argument("login", "dhandley")})

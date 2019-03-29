@@ -3,13 +3,13 @@ package com.sonatype.blametest;
 import java.io.IOException;
 import java.net.URL;
 
+import com.sonatype.blametest.models.GraphQLRequest;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

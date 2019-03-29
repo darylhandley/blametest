@@ -1,4 +1,4 @@
-package com.sonatype.blametest;
+package com.sonatype.blametest.models;
 
 public class GraphQLRequest {
   private String query;

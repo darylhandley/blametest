@@ -11,7 +11,7 @@
  * the License.
  */
 
-package com.sonatype.blametest.models
+package com.sonatype.blametest.aexpgraghql
 
 class RepositoryConnection {
 

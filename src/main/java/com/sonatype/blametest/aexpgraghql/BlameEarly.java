@@ -1,4 +1,4 @@
-package com.sonatype.blametest;
+package com.sonatype.blametest.aexpgraghql;
 
 import java.awt.image.SampleModel;
 import java.math.BigDecimal;

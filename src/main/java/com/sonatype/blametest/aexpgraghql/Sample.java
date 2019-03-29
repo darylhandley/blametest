@@ -1,11 +1,11 @@
-package com.sonatype.blametest;
+package com.sonatype.blametest.aexpgraghql;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sonatype.blametest.models.User;
+import com.sonatype.blametest.aexpgraghql.User;
 
 import io.aexp.nodes.graphql.Argument;
 import io.aexp.nodes.graphql.Arguments;
