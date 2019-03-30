@@ -17,7 +17,7 @@ import io.aexp.nodes.graphql.Variable;
 public class Sample {
   public static void main(String[] args) throws Exception {
 
-    String YOUR_AUTH_TOKEN = "eeb7987aef9ccd7440a49cae2acc7f58bb415059";
+    String YOUR_AUTH_TOKEN = "xxx";
 
     Map<String, String> headers = new HashMap();
     headers.put("Authorization", "bearer " + YOUR_AUTH_TOKEN);

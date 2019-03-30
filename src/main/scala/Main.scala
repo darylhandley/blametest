@@ -18,7 +18,7 @@ import io.aexp.nodes.graphql.{Argument, Arguments, GraphQLRequestEntity, GraphQL
 import models.User
 
 object Main extends App {
-  val YOUR_AUTH_TOKEN = "eeb7987aef9ccd7440a49cae2acc7f58bb415059"
+  val YOUR_AUTH_TOKEN = "xxx"
 
   val headers = new util.HashMap[String, String]()
   headers.put("Authorization", "bearer " + YOUR_AUTH_TOKEN)
