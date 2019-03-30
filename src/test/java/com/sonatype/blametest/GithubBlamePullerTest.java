@@ -31,11 +31,11 @@ public class GithubBlamePullerTest
         .deletions(1)
         .changes(5)
         .rawUrl("https://github.com/wconrad/ftpd/raw/828064f1a0ab69b2642c59cab8292a67bb44182c/Changelog.md")
-        .patch("@@ -1,4 +1,4 @@\\n-### dev\\n+### 0.2.2\\n \\n Bug fixes\\n \\n@@ -8,6 +8,9 @@ Bug fixes\\n   PASS\\n * Open PASV mode data connection on same local IP as control connection.\\n   This is required by RFC 1123.\\n+* Disabled globbing in LIST (for now) due to code injection\\n+  vulnerability.  This patch also disables globbing in NLST, but NLST\\n+  probably shouldn't do globbing.\\n \\n Enhancements\\n ")
+        .patch("@@ -1,4 +1,4 @@\n-### dev\n+### 0.2.2\n \n Bug fixes\n \n@@ -8,6 +8,9 @@ Bug fixes\n   PASS\n * Open PASV mode data connection on same local IP as control connection.\n   This is required by RFC 1123.\n+* Disabled globbing in LIST (for now) due to code injection\n+  vulnerability.  This patch also disables globbing in NLST, but NLST\n+  probably shouldn't do globbing.\n \n Enhancements\n ")
         .build();
     assertEquals(expectedFirst, first);
     assertTrue(files.stream().anyMatch(f -> f.getFilename().equals("Changelog.md")));
-    assertTrue(files.contains("README.md"));
+    
 
   }
 
@@ -70,9 +70,20 @@ public class GithubBlamePullerTest
   }
 
   @Test
-  public void testCommandLine() throws Exception {
+  public void main() throws Exception {
 
     CommitAndBlameData blameData = blamePuller.getCommitAndBlameData(FIX_URL);
+
+    System.out.println("Executed a blame history");
+    System.out.println("Owner        : "   + blameData.getGithubDiffDescriptor().getOwner());
+    System.out.println("Repository   : "   + blameData.getGithubDiffDescriptor().getRepoName());
+    System.out.println("Filename     : "   + blameData.getCommitFile().getFilename());
+    System.out.println("LineNumber   : "   + blameData.getGithubDiffDescriptor().getLineNumber());
+    System.out.println("File Changes : "   + blameData.getCommitFile().getChanges());
+    System.out.println("Additions    : "   + blameData.getCommitFile().getAdditions());
+    System.out.println("Deletions    : "   + blameData.getCommitFile().getDeletions());
+    System.out.println("Patch        : \n" + blameData.getCommitFile().getPatch());
+
 
     System.out.println("");
 
