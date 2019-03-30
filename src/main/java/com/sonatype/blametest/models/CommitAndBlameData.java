@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Builder
 @Data
-public class BlameData {
-  private String filename;
+public class CommitAndBlameData
+{
+  private CommitFile commitFile;
   private GithubDiffDescriptor githubDiffDescriptor;
 }

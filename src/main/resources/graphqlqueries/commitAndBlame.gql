@@ -1,0 +1,37 @@
+query {
+
+  repository(name: "__repoName__", owner: "__owner__") {
+    object(oid :"__commitHash__") {
+			... on Commit {
+				commitUrl
+      	commitResourcePath
+      	id
+
+      	__typename
+
+				blame(path : "__filename__") {
+					ranges {
+            age
+            endingLine
+            startingLine
+            commit {
+              committedDate
+              oid
+              author {
+                user {
+                  name
+                }
+              }
+              changedFiles
+              committer {
+                user {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
