@@ -2,6 +2,7 @@ package com.sonatype.blametest;
 
 import java.util.List;
 
+import com.sonatype.blametest.models.BlameRange;
 import com.sonatype.blametest.models.CommitAndBlameData;
 import com.sonatype.blametest.models.CommitFile;
 
@@ -16,6 +17,9 @@ public class GithubBlamePullerTest
 
   private final String FIX_URL =
       "https://github.com/wconrad/ftpd/commit/828064f1a0ab69b2642c59cab8292a67bb44182c#diff-727907d957f457b955115a20e6cda186R222";
+
+  private final String MY_HISTORY_FIX_URL =
+    "https://github.com/darylhandley/blametest/commit/c6b0687e966ea98b1c8bba50a4e5609d1b83834a#diff-ba21194fc596c80deea196e3d7f5104cR10";
 
   @Test
   public void testGetFilesChangedForHash() throws Exception {
@@ -40,39 +44,39 @@ public class GithubBlamePullerTest
   }
 
   @Test
-  public void testGetBlameData() throws Exception {
+  public void testGetBlameRanges() throws Exception {
 
-    CommitAndBlameData blameData = blamePuller.getCommitAndBlameData(FIX_URL);
+    List<BlameRange> blameRanges = blamePuller.getBlameRanges(
+        "darylhandley",
+        "blametest",
+        "c6b0687e966ea98b1c8bba50a4e5609d1b83834a",
+        "data/myHistoryFIle.txt"
+    );
+
+    assertEquals(3, blameRanges.size());
+    BlameRange first = blameRanges.get(0);
+    assertEquals(new Integer(4), first.getAge());
+    assertEquals(new Integer(9), first.getEndingLine());
+    assertEquals(new Integer(1), first.getStartingLine());
+    assertEquals(new Integer(3), first.getChangedFilesCount());
+    assertEquals("2019-03-30T15:45:29Z", first.getCommittedDate());
+    assertEquals("Daryl Handley", first.getCommitter());
+    assertEquals("5674150d758ef1a11da6bee4608f75accc31255c", first.getCommitHash());
 
 
-    CommitFile expectedCommitFile = CommitFile.builder()
-        .filename("lib/ftpd/disk_file_system.rb")
-        .status("modified")
-        .additions(4)
-        .deletions(3)
-        .changes(7)
-        .rawUrl("https://github.com/wconrad/ftpd/raw/828064f1a0ab69b2642c59cab8292a67bb44182c/lib/ftpd/disk_file_system.rb")
-        .patch("@@ -206,6 +206,8 @@ class DiskFileSystem\n \n     module Ls\n \n+      include Shellwords\n+\n       def ls(ftp_path, option)\n         path = expand_ftp_path(ftp_path)\n         dirname = File.dirname(path)\n@@ -214,11 +216,10 @@ def ls(ftp_path, option)\n           'ls',\n           option,\n           filename,\n-          '2>&1',\n-        ].compact.join(' ')\n+        ].compact\n         if File.exists?(dirname)\n           list = Dir.chdir(dirname) do\n-            `#{command}`\n+            `#{shelljoin(command)} 2>&1`\n           end\n         else\n           list = ''")
-        .build();
+  }
 
+  @Test
+  public void testGetLineHistory() throws Exception {
 
-    assertEquals(expectedCommitFile, blameData.getCommitFile());
-
-    //CommitFile file = blameData.getCommitFile();
-    //assertEquals(expectedCommitFile.getFilename(), file.getFilename());
-    //assertEquals(expectedCommitFile.getStatus(), file.getStatus());
-    //assertEquals(expectedCommitFile.getAdditions(), file.getAdditions());
-    //assertEquals(expectedCommitFile.getDeletions(), file.getDeletions());
-    //assertEquals(expectedCommitFile.getChanges(), file.getChanges());
-    //assertEquals(expectedCommitFile.getRawUrl(), file.getRawUrl());
-    //assertEquals(expectedCommitFile.getPatch(), file.getPatch());
+    blamePuller.getLineHistory(FIX_URL);
 
   }
 
   @Test
   public void main() throws Exception {
 
-    CommitAndBlameData blameData = blamePuller.getCommitAndBlameData(FIX_URL);
+    CommitAndBlameData blameData = blamePuller.getCommitAndBlameData(MY_HISTORY_FIX_URL);
 
     System.out.println("Executed a blame history");
     System.out.println("Owner        : "   + blameData.getGithubDiffDescriptor().getOwner());
