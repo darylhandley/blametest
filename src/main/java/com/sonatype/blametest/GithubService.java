@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.sonatype.blametest.models.BlameRange;
+import com.sonatype.blametest.models.CommitFile;
 import com.sonatype.blametest.models.GraphQLRequest;
 import com.sonatype.blametest.models.githubgraphql.Commit;
 
@@ -24,6 +26,8 @@ public class GithubService
 {
 
   private static ObjectMapper objectMapper = new ObjectMapper();
+
+  private GithubBlamePuller gbp = new GithubBlamePuller();
 
 
   static {
@@ -57,8 +61,17 @@ public class GithubService
 
     return commits;
 
+  }
 
+  public CommitFile getCommitFileForCommit(String owner, String repo, String filename, String hash)
+      throws Exception {
+    List<CommitFile> commitFiles = gbp.getFilesChangedForHash(owner, repo, hash);
+    Optional<CommitFile> commitFile = commitFiles
+        .stream()
+        .filter(cf -> cf.getFilename().equals(filename))
+        .findFirst();
 
+    return commitFile.orElseThrow(() -> new RuntimeException("Commit file not found"));
   }
 
 

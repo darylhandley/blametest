@@ -28,6 +28,8 @@ public class BlamePuller2 {
     // get all the commits for the file
     List<Commit> commits = githubService.getCommitsForFile(repo, owner, filename, startingCommit);
 
+    // iterate over the commits 
+
 
     // fill in the data from the v2 api
 
