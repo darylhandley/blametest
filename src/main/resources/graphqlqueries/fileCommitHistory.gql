@@ -1,0 +1,63 @@
+query {
+
+  repository(name: "__repoName__", owner: "__owner__") {
+    object(oid :"__commitHash__") {
+      ... on Commit {
+        history(first:100,path: "__filename__"){
+            nodes {
+              author {
+                email
+                user {
+                  name
+                  login
+                }
+              }
+              message
+              oid
+              changedFiles
+              blame(path : "__filename__") {
+                ranges {
+                  age
+                  endingLine
+                  startingLine
+                }
+              }
+              
+            }
+          totalCount
+        }
+        commitUrl
+      	commitResourcePath
+      	id
+        additions
+        changedFiles
+        deletions
+        
+#      	__typename
+        
+#        blame(path : "data/myHistoryFIle.txt") {
+#            ranges {
+#            age
+#            endingLine
+#            startingLine
+#            commit {
+#              committedDate
+#              oid
+#              author {
+#                user {
+#                  name
+#                }
+#              }
+#              changedFiles
+#              committer {
+#                user {
+#                  name
+#                }
+#              }
+#            }
+#          }
+#        }
+      }
+    }  
+  } 
+}
