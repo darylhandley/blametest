@@ -5,22 +5,21 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import com.sonatype.blametest.models.BlameRange;
 import com.sonatype.blametest.models.CommitFile;
+import com.sonatype.blametest.models.FileCommitHistoryItem;
 import com.sonatype.blametest.models.GraphQLRequest;
 import com.sonatype.blametest.models.githubgraphql.Commit;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.google.common.hash.Hashing;
 import com.google.common.io.Resources;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import lombok.val;
+import lombok.SneakyThrows;
 
 public class GithubService
 {
@@ -32,6 +31,25 @@ public class GithubService
 
   static {
     Unirest.setObjectMapper(new JacksonObjectMapper());
+  }
+
+  @SneakyThrows
+  public List<FileCommitHistoryItem> getFileCommitHistory(String owner, String repo, String filename, String startingHash)  {
+    List<Commit> commits = getCommitsForFile(owner, repo, filename, startingHash);
+
+    List<FileCommitHistoryItem> fileCommitHistory = commits.stream().map(commit-> {
+      CommitFile commitFile = getCommitFileForCommit(owner, repo, filename, commit.getOid());
+      String contents = getRawFile(commitFile.getRawUrl());
+      return FileCommitHistoryItem.builder()
+          .commit(commit)
+          .commitFile(commitFile)
+          .rawFileContents(contents)
+          .build();
+    }).collect(Collectors.toList());
+
+    return fileCommitHistory;
+
+
   }
 
   public List<Commit> getCommitsForFile(String owner, String repo, String filename, String startingHash)
@@ -63,8 +81,8 @@ public class GithubService
 
   }
 
-  public CommitFile getCommitFileForCommit(String owner, String repo, String filename, String hash)
-      throws Exception {
+  @SneakyThrows
+  public CommitFile getCommitFileForCommit(String owner, String repo, String filename, String hash) {
     List<CommitFile> commitFiles = gbp.getFilesChangedForHash(owner, repo, hash);
     Optional<CommitFile> commitFile = commitFiles
         .stream()
@@ -72,6 +90,18 @@ public class GithubService
         .findFirst();
 
     return commitFile.orElseThrow(() -> new RuntimeException("Commit file not found"));
+
+  }
+
+  @SneakyThrows
+  public String getRawFile(String rawUrl)  {
+
+    HttpResponse<String> response = Unirest.get(rawUrl).asString();
+    if (response.getStatus() != 200) {
+      throw new RuntimeException("Unexpected response code " + response.getStatus());
+    }
+    return response.getBody();
+
   }
 
 

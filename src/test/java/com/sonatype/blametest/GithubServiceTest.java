@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sonatype.blametest.models.CommitAndBlameData;
 import com.sonatype.blametest.models.CommitFile;
+import com.sonatype.blametest.models.FileCommitHistoryItem;
 import com.sonatype.blametest.models.githubgraphql.Author;
 import com.sonatype.blametest.models.githubgraphql.Blame;
 import com.sonatype.blametest.models.githubgraphql.BlameRange;
@@ -24,7 +25,7 @@ public class GithubServiceTest
 
 
   @Test
-  public void testGetFileCommitHistory() throws Exception {
+  public void testGetCommitsForFile() throws Exception {
 
     List<Commit> commits = githubService.getCommitsForFile("darylhandley", "blametest", "data/myHistoryFIle.txt",
         "c6b0687e966ea98b1c8bba50a4e5609d1b83834a");
@@ -89,6 +90,73 @@ public class GithubServiceTest
 }
 ]
      */
+  }
+
+
+  @Test
+  public void testGetRawFile() throws Exception {
+    String contents = githubService.getRawFile("https://github.com/darylhandley/blametest/raw/c6b0687e966ea98b1c8bba50a4e5609d1b83834a/data/myHistoryFIle.txt");
+
+    assertNotNull(contents);
+    assertEquals(
+        "line 1\n" +
+        "line 2\n" +
+        "line 3\n" +
+        "line 4\n" +
+        "line 5\n" +
+        "line 6\n" +
+        "line 7\n" +
+        "line 8\n" +
+        "line 9\n" +
+        "The quick brown fox bounds right over the lazy sheep.\n" +
+        "line 11\n" +
+        "line 12\n" +
+        "line 13\n" +
+        "line 14\n" +
+        "line 15\n" +
+        "line 16\n" +
+        "line 17\n" +
+        "line 18\n" +
+        "line 19\n" +
+        "line 20\n",
+        contents);
+  }
+
+  @Test
+  public void testGetFileCommitHistory() {
+    List<FileCommitHistoryItem> fileCommitHistory = githubService.getFileCommitHistory(
+        "darylhandley",
+        "blametest",
+        "data/myHistoryFIle.txt",
+        "c6b0687e966ea98b1c8bba50a4e5609d1b83834a"
+    );
+
+    String expectedFileContents =
+        "line 1\n" +
+            "line 2\n" +
+            "line 3\n" +
+            "line 4\n" +
+            "line 5\n" +
+            "line 6\n" +
+            "line 7\n" +
+            "line 8\n" +
+            "line 9\n" +
+            "The quick brown fox bounds right over the lazy sheep.\n" +
+            "line 11\n" +
+            "line 12\n" +
+            "line 13\n" +
+            "line 14\n" +
+            "line 15\n" +
+            "line 16\n" +
+            "line 17\n" +
+            "line 18\n" +
+            "line 19\n" +
+            "line 20\n";
+
+    assertEquals(4, fileCommitHistory.size());
+    assertEquals(expectedFileContents, fileCommitHistory.get(0).getRawFileContents());
+
+
   }
 
 
