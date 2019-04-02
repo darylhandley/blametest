@@ -55,7 +55,7 @@ public class GithubBlamePullerTest
 
     assertEquals(3, blameRanges.size());
     BlameRange first = blameRanges.get(0);
-    assertEquals(new Integer(4), first.getAge());
+    assertEquals(new Integer(5), first.getAge());
     assertEquals(new Integer(9), first.getEndingLine());
     assertEquals(new Integer(1), first.getStartingLine());
     assertEquals(new Integer(3), first.getChangedFilesCount());
@@ -66,12 +66,12 @@ public class GithubBlamePullerTest
 
   }
 
-  @Test
-  public void testGetLineHistory() throws Exception {
-
-    blamePuller.getLineHistory(MY_HISTORY_FIX_URL);
-
-  }
+  //@Test
+  //public void testGetLineHistory() throws Exception {
+  //
+  //  blamePuller.getLineHistory(MY_HISTORY_FIX_URL);
+  //
+  //}
 
   @Test
   public void main() throws Exception {

@@ -7,7 +7,6 @@ import com.sonatype.blametest.models.CommitFile;
 
 import lombok.Getter;
 import lombok.Setter;
-import scala.Int;
 
 @Getter
 @Setter
