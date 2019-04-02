@@ -4,6 +4,7 @@ import com.sonatype.blametest.resources.BlameTestResource;
 import com.sonatype.blametest.resources.HelloWorldResource;
 
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
@@ -21,6 +22,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
   @Override
   public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
     bootstrap.addBundle(new ViewBundle<>());
+    bootstrap.addBundle(new AssetsBundle("/assets/", "/assets"));
   }
 
   @Override
@@ -36,6 +38,8 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 
     environment.jersey().register(resource);
     environment.jersey().register(new BlameTestResource());
+
+
   }
 
 }

@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.sonatype.blametest.views.BlameTestView;
 
-@Path("/")
+@Path("/blame")
 @Produces(MediaType.TEXT_HTML)
 public class BlameTestResource {
 
