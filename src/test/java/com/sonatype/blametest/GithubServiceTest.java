@@ -14,6 +14,8 @@ import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class GithubServiceTest
@@ -56,6 +58,40 @@ public class GithubServiceTest
     assertEquals(expected, first);
 
   }
+
+  @Test
+  public void testGetCommitFileForCommit() throws Exception {
+    CommitFile commitFile = githubService.getCommitFileForCommit("darylhandley", "blametest", "data/myHistoryFIle.txt",
+        "c6b0687e966ea98b1c8bba50a4e5609d1b83834a");
+
+    assertNotNull(commitFile);
+    assertEquals(1, commitFile.getAdditions());
+    assertEquals(1, commitFile.getDeletions());
+    assertEquals(2, commitFile.getChanges());
+    assertEquals("data/myHistoryFIle.txt", commitFile.getFilename());
+    assertEquals("https://github.com/darylhandley/blametest/raw/c6b0687e966ea98b1c8bba50a4e5609d1b83834a/data/myHistoryFIle.txt",
+        commitFile.getRawUrl());
+    assertEquals("@@ -7,7 +7,7 @@ line 6\n line 7\n line 8\n line 9\n-The quick brown fox jumps right over the lazy sheep.\n+The quick brown fox bounds right over the lazy sheep.\n line 11\n line 12\n line 13",
+        commitFile.getPatch());
+    assertEquals("modified", commitFile.getStatus());
+
+    /*
+    "sha": "fb26873c21ed94598c3dd5a91a43fea8b56d4051",
+"filename": "data/myHistoryFIle.txt",
+"status": "modified",
+"additions": 1,
+"deletions": 1,
+"changes": 2,
+"blob_url": "https://github.com/darylhandley/blametest/blob/c6b0687e966ea98b1c8bba50a4e5609d1b83834a/data/myHistoryFIle.txt",
+"raw_url": "https://github.com/darylhandley/blametest/raw/c6b0687e966ea98b1c8bba50a4e5609d1b83834a/data/myHistoryFIle.txt",
+"contents_url": "https://api.github.com/repos/darylhandley/blametest/contents/data/myHistoryFIle.txt?ref=c6b0687e966ea98b1c8bba50a4e5609d1b83834a",
+"patch": "@@ -7,7 +7,7 @@ line 6\n line 7\n line 8\n line 9\n-The quick brown fox jumps right over the lazy sheep.\n+The quick brown fox bounds right over the lazy sheep.\n line 11\n line 12\n line 13"
+}
+]
+     */
+  }
+
+
 
 
 }
