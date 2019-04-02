@@ -69,7 +69,7 @@ public class GithubBlamePullerTest
   @Test
   public void testGetLineHistory() throws Exception {
 
-    blamePuller.getLineHistory(FIX_URL);
+    blamePuller.getLineHistory(MY_HISTORY_FIX_URL);
 
   }
 

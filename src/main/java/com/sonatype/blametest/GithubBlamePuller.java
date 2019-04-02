@@ -85,14 +85,48 @@ public class GithubBlamePuller {
         .findFirst()
         .orElseThrow(() -> new RuntimeException("unable to find file for hash"));
 
-    // get the blame data
-    List<BlameRange> blameRanges = getBlameRanges(
+    return getCommitAndBlameData(
         githubDiffDescriptor.getOwner(),
         githubDiffDescriptor.getRepoName(),
         githubDiffDescriptor.getCommitHash(),
-        commitFile.getFilename()
+        commitFile.getFilename(),
+        githubDiffDescriptor.getLineNumber()
     );
 
+  }
+
+  public CommitAndBlameData getCommitAndBlameData(String owner, String repo, String commit, String filename,
+                                                  Integer lineNumber) throws Exception {
+
+    List<CommitFile> files = getFilesChangedForHash(
+        owner,
+        repo,
+        commit
+    );
+
+    // iterate over the files and find the first one that matches on filename
+    CommitFile commitFile = files.stream()
+        .filter(file -> file.getFilename().equals(filename))
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("unable to find file for filename"));
+
+
+    // get the blame data
+    List<BlameRange> blameRanges = getBlameRanges(
+        owner,
+        repo,
+        commit,
+        filename
+    );
+
+
+    GithubDiffDescriptor githubDiffDescriptor = GithubDiffDescriptor.builder()
+        .commitHash(commit)
+        .filenameHash("None")
+        .lineNumber(lineNumber)
+        .owner(owner)
+        .repoName(repo)
+        .build();
 
 
     return CommitAndBlameData.builder()
@@ -148,14 +182,77 @@ public class GithubBlamePuller {
 
     // get the first BlameData
     CommitAndBlameData firstBlameData = getCommitAndBlameData(diffUrl);
+    String owner = firstBlameData.getGithubDiffDescriptor().getOwner();
+    String repo = firstBlameData.getGithubDiffDescriptor().getRepoName();
+    String commit = firstBlameData.getGithubDiffDescriptor().getCommitHash();
+    String filename = firstBlameData.getCommitFile().getFilename();
+    Integer lineNumber = firstBlameData.getGithubDiffDescriptor().getLineNumber();
+    BlameRange firstBlameRange = firstBlameData.getSpecificBlameRange();
 
-    // look up the next one using blame
+    // get the previous commit for the line in question
+    // how do we do this ?
+    // get the commit history for the file to find the next commit
+
+    // look up the next one using the blame and the next hash
+    CommitAndBlameData currentBlameData = firstBlameData;
+    while (true) {
+      BlameRange blameRange = currentBlameData.getSpecificBlameRange();
+
+      // if the same as the current then get next in history for the file
+      if (currentBlameData.getGithubDiffDescriptor().getCommitHash().equals(blameRange.getCommitHash())) {
+        // get previous commit history for file from this commit backwards
+
+        // TODO: load the file later here and find the line number ?
+
+        // load the currentBlameData
+        currentBlameData = getCommitAndBlameData(owner, repo, "previousCommit", filename, lineNumber);
+      }
+
+      if (currentBlameData == null) {
+        break;
+      }
+      currentBlameData = getCommitAndBlameData(owner, repo, blameRange.getCommitHash(), filename, lineNumber);
+
+
+
+    }
+
+
+
+
 
 
 
     return ImmutableList.of(firstBlameData);
 
   }
+
+  /**
+   * Finds the previous commit for a file in the commit history.
+   */
+  //public List<String> getPreviousCommit(String owner, String repo, String commit) throws Exception {
+  //
+  //  String query = loadFile("previousCommit.gql")
+  //      .replaceAll("__owner__", owner)
+  //      .replaceAll("__repoName__", repo)
+  //      .replaceAll("__commitHash__", commit)
+  //      .replaceAll("", "");
+  //
+  //  HttpResponse<String> result = executeGraphQlQuery(query);
+  //  System.out.println(result.getBody());
+  //
+  //  List<BlameRange> blameRanges = new ArrayList<>();
+  //
+  //  JsonNode jsonNode = objectMapper.readTree(result.getBody().toString());
+  //  JsonNode rangesNode = jsonNode
+  //      .get("data")
+  //      .get("repository")
+  //      .get("object")
+  //      .get("blame")
+  //      .get("ranges");
+  //
+  //}
+
 
   // public
 
