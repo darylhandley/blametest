@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="" type="com.sonatype.blametest.resources.BlameView" -->
+<#-- @ftlvariable name="" type="com.sonatype.blametest.views.BlameTestView" -->
 <!doctype html>
 <html lang="en">
   <head>
@@ -30,35 +30,39 @@
               </div>
 
               <button type="submit" class="btn btn-primary">Do it</button>
-
-                <div class="form-group">
-                  <label for="url">Current Url</label>
-                  <input type="text" class="form-control" id="url" name="url" aria-describedby="urlHelp" placeholder="Enter url">
-                  <small id="urlHelp" class="form-text text-muted">Enter the url for the fix commit link.</small>
-                </div>
             </fieldset>
           </form>
         </div>
       </div>
 
 
-      <div class="card border-secondary mb-3">
-        <div class="card-header">Header</div>
-        <div class="card-body">
-          Current Url is ${url}
-        </div>
-      </div>
 
-      <div class="card border-secondary mb-3">
-        <div class="card-header">Header</div>
-        <div class="card-body">
-          <h4 class="card-title">Secondary card title</h4>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div
-      </div>
+      <#if fileCommitHistory??>
+        <#list fileCommitHistory as fileCommitHistoryItem>
+          <div class="card border-secondary mb-3">
+            <div class="card-header">
+              ${fileCommitHistoryItem.commit.oid} : ${fileCommitHistoryItem.commit.message}<br/>
+              link goes here
+            </div>
+            <div class="card-body">
+
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the bulk of the card's content.
+              </p>
+              <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                  <p class="card-text">
+                    This is the code line
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </#list>
+      </#if>
 
 
-    </div>
+
 
 
 

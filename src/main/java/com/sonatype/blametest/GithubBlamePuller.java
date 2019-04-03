@@ -21,6 +21,7 @@ import com.google.common.io.Resources;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import lombok.SneakyThrows;
 import lombok.val;
 
 import static java.lang.String.format;
@@ -92,6 +93,27 @@ public class GithubBlamePuller {
         commitFile.getFilename(),
         githubDiffDescriptor.getLineNumber()
     );
+
+  }
+
+  @SneakyThrows
+  public String getFilenameFromDiffUrl(String diffUrl)  {
+
+    GithubDiffDescriptor githubDiffDescriptor = GithubUtil.parseDiffDescriptor(diffUrl);
+    List<CommitFile> files = getFilesChangedForHash(
+        githubDiffDescriptor.getOwner(),
+        githubDiffDescriptor.getRepoName(),
+        githubDiffDescriptor.getCommitHash()
+    );
+
+    // iterate over the files and find the first one that matches on hash
+    CommitFile commitFile = files.stream()
+        .filter(file -> md5(file.getFilename()).equals(githubDiffDescriptor.getFilenameHash()))
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("unable to find file for hash"));
+
+    return commitFile.getFilename();
+
 
   }
 

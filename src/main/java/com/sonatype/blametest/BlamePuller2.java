@@ -2,9 +2,11 @@ package com.sonatype.blametest;
 
 import java.util.List;
 
+import com.sonatype.blametest.models.FileCommitHistoryItem;
 import com.sonatype.blametest.models.githubgraphql.Commit;
 
 import com.google.common.collect.ImmutableList;
+import lombok.SneakyThrows;
 
 public class BlamePuller2 {
 
@@ -24,16 +26,9 @@ public class BlamePuller2 {
   }
 
 
-  public List<FileCommitHistory> loadCommitHistory() throws Exception {
-    // get all the commits for the file
-    List<Commit> commits = githubService.getCommitsForFile(repo, owner, filename, startingCommit);
-
-    // iterate over the commits 
-
-
-    // fill in the data from the v2 api
-
-    return ImmutableList.of();
+  @SneakyThrows
+  public List<FileCommitHistoryItem> loadFileCommitHistory() {
+    return githubService.getFileCommitHistory(repo, owner, filename, startingCommit);
   }
 
 
