@@ -3,7 +3,7 @@ query {
   repository(name: "__repoName__", owner: "__owner__") {
     object(oid :"__commitHash__") {
       ... on Commit {
-        history(first:100,path: "__filename__"){
+        history(first:20,path: "__filename__"){
             nodes {
               author {
                 email

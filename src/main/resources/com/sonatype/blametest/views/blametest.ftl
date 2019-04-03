@@ -41,21 +41,74 @@
         <#list fileCommitHistory as fileCommitHistoryItem>
           <div class="card border-secondary mb-3">
             <div class="card-header">
-              ${fileCommitHistoryItem.commit.oid} : ${fileCommitHistoryItem.commit.message}<br/>
-              link goes here
+              <a href="${fileCommitHistoryItem.diffLink}">
+                ${fileCommitHistoryItem.commit.oid}
+              </a>
+              : ${fileCommitHistoryItem.commit.message}<br/>
+
             </div>
             <div class="card-body">
 
+              <table class="table table-hover">
+                <tbody>
+                  <tr class="table-default">
+                    <th scope="row">Message</th>
+                    <td>${fileCommitHistoryItem.commit.message}</td>
+                  </tr>
+                  <tr class="table-default">
+                    <th scope="row">Author</th>
+                    <td>
+                      <#if fileCommitHistoryItem.commit.author??>
+                        <#if fileCommitHistoryItem.commit.author.user??>
+                          ${fileCommitHistoryItem.commit.author.user.name}
+                        </#if>
+                      </#if>
+                    </td>
+                  </tr>
+                  <tr class="table-default">
+                    <th scope="row">Changed Files</th>
+                    <td>${fileCommitHistoryItem.commit.changedFiles}</td>
+                  </tr>
+                  <tr class="table-default">
+                    <th scope="row">File Additions</th>
+                    <td>${fileCommitHistoryItem.commitFile.additions}</td>
+                  </tr>
+                  <tr class="table-default">
+                    <th scope="row">File Deletions</th>
+                    <td>${fileCommitHistoryItem.commitFile.deletions}</td>
+                  </tr>
+                  <tr class="table-default">
+                    <th scope="row">Raw Url</th>
+                    <td>
+                      <a href = "${fileCommitHistoryItem.commitFile.rawUrl}">Click me</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+
               <p class="card-text">
-                Some quick example text to build on the card title and make up the bulk of the card's content.
+                <b>Line</b>
               </p>
               <div class="card text-white bg-secondary mb-3">
                 <div class="card-body">
                   <p class="card-text">
-                    This is the code line
+                    ${fileCommitHistoryItem.theLine}
                   </p>
                 </div>
               </div>
+
+              <p class="card-text">
+                <b>Patch</b>
+              </p>
+              <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                  <p class="card-text">
+                    <pre style="color:white">${fileCommitHistoryItem.commitFile.patch}</pre>
+                  </p>
+                </div>
+              </div>
+
             </div>
           </div>
         </#list>

@@ -44,7 +44,10 @@ public class GithubBlamePuller {
         commitHash
     );
 
-    HttpResponse<String> result = Unirest.get(url).asString();
+    HttpResponse<String> result = Unirest
+        .get(url)
+        .header("Authorization", "Bearer " + Constants.AUTH_TOKEN)
+        .asString();
 
     String json = result.getBody();
 
@@ -52,11 +55,12 @@ public class GithubBlamePuller {
     List<CommitFile> files = new ArrayList<CommitFile>();
 
     com.fasterxml.jackson.databind.JsonNode rootNode = objectMapper.readTree(json);
+
     for (com.fasterxml.jackson.databind.JsonNode fileNode : rootNode.get("files")) {
       files.add(
           CommitFile.builder()
               .filename(fileNode.get("filename").textValue())
-              .patch(fileNode.get("patch").textValue())
+              .patch(fileNode.get("patch") ==  null ? "" : fileNode.get("patch").textValue())
               .rawUrl(fileNode.get("raw_url").textValue())
               .status(fileNode.get("status").textValue())
               .additions(fileNode.get("additions").intValue())
@@ -67,9 +71,18 @@ public class GithubBlamePuller {
 
     }
 
+    //com.fasterxml.jackson.databind.JsonNode rootNode = objectMapper.readTree(json);
+    //for (com.fasterxml.jackson.databind.JsonNode fileNode : rootNode.get("files")) {
+    //  files.add(
+    //      objectMapper.treeToValue(fileNode, CommitFile.class)
+    //  );
+    //}
+
     return files;
 
   }
+
+
 
   public CommitAndBlameData getCommitAndBlameData(String diffUrl) throws Exception {
 

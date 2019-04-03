@@ -36,7 +36,8 @@ public class BlameTestResource {
           githubDiffDescriptor.getOwner(),
           githubDiffDescriptor.getRepoName(),
           filename,
-          githubDiffDescriptor.getCommitHash()
+          githubDiffDescriptor.getCommitHash(),
+          githubDiffDescriptor.getLineNumber()
       );
 
       List<FileCommitHistoryItem> fileCommitHistory = blamePuller2.loadFileCommitHistory();

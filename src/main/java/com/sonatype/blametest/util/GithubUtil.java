@@ -7,6 +7,7 @@ public class GithubUtil
 
   public static GithubDiffDescriptor parseDiffDescriptor(String diffUrl) {
     // "https://github.com/wconrad/ftpd/commit/828064f1a0ab69b2642c59cab8292a67bb44182c#diff-727907d957f457b955115a20e6cda186R222"
+    //      chenckang/react-json-pretty/commit/66526b92568d5468994a58bbfdc0822e33b7ade5#diff-01713d5778a82203e153629182b950b2
     if (!diffUrl.startsWith("https://github.com")) {
       throw new RuntimeException("Invalid git url");
     }
