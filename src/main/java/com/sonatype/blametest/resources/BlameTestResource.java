@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.sonatype.blametest.models.githubgraphql.Blame;
 import com.sonatype.blametest.views.BlameTestView;
 
 @Path("/blame")
@@ -16,6 +17,8 @@ public class BlameTestResource {
 
   @GET
   public BlameTestView getBlameTest(@QueryParam("url") Optional<String> url ) {
-    return new BlameTestView();
+    BlameTestView view = new BlameTestView();
+    view.setUrl(url.orElse(""));
+    return view;
   }
 }
