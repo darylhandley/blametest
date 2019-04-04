@@ -9,6 +9,7 @@ public class GithubUtil
     // "https://github.com/wconrad/ftpd/commit/828064f1a0ab69b2642c59cab8292a67bb44182c#diff-727907d957f457b955115a20e6cda186R222"
     //      chenckang/react-json-pretty/commit/66526b92568d5468994a58bbfdc0822e33b7ade5#diff-01713d5778a82203e153629182b950b2
     if (!diffUrl.startsWith("https://github.com")) {
+                          // https://github.com/Pylons/colander/commit/d4f4f77a2cfa518426178bd69d2b29dee57f770d#diff-612b3eb0aa124a83bcd7ef8d42a0fbdeR614
       throw new RuntimeException("Invalid git url");
     }
 

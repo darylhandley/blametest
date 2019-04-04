@@ -117,7 +117,7 @@ public class GithubService
           .asString();
 
       if (response.getStatus() != 200) {
-        throw new RuntimeException("Unexpected response code " + response.getStatus());
+        throw new RuntimeException("Unexpected response code " + response.getStatus() + " content is " + response.getBody());
       }
 
       return response;

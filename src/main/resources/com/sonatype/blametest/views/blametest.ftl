@@ -78,6 +78,10 @@
                     <td>${fileCommitHistoryItem.commitFile.deletions}</td>
                   </tr>
                   <tr class="table-default">
+                    <th scope="row">Line Number</th>
+                    <td>${fileCommitHistoryItem.lineNumber}</td>
+                  </tr>
+                  <tr class="table-default">
                     <th scope="row">Raw Url</th>
                     <td>
                       <a href = "${fileCommitHistoryItem.commitFile.rawUrl}">Click me</a>

@@ -38,9 +38,9 @@ public class FileCommitHistoryItem
 
   /** TODO: Super cheesy, should be able to just write a method but freemarker pukes */
   public void init() {
-    String filehash = Md5Util.md5(commitFile.getFilename());
-    diffLink = String.format("https://github.com/%s/%s/commit/%s#diff-%sR%s",
-        owner, repo, commit.getOid(), filehash, lineNumber.toString());
+    //String filehash = Md5Util.md5(commitFile.getFilename());
+    //diffLink = String.format("https://github.com/%s/%s/commit/%s#diff-%sR%s",
+    //    owner, repo, commit.getOid(), filehash, lineNumber.toString());
   }
 
   public String getTheLine() {
