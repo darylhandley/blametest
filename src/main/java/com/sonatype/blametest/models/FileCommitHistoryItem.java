@@ -50,5 +50,12 @@ public class FileCommitHistoryItem
     return line == null ? "UNKNOWN LINE" : line;
   }
 
+  public String getLinkToLine() {
+    // https://github.com/Microsoft/ChakraCore/blob/1a7790f873b1a73d1cfec9548eb08a3b9fd798f3/lib/Parser/RegexParser.cpp#L2496
+    String link  = String.format("https://github.com/%s/%s/blob/%s/%s#L%s",
+        owner, repo, commit.getOid(), filename, lineNumber.toString());
+    return link;
+  }
+
 
 }

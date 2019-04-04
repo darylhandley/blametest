@@ -66,6 +66,10 @@
                     </td>
                   </tr>
                   <tr class="table-default">
+                    <th scope="row">File</th>
+                    <td>${fileCommitHistoryItem.filename}</td>
+                  </tr>
+                  <tr class="table-default">
                     <th scope="row">Changed Files</th>
                     <td>${fileCommitHistoryItem.commit.changedFiles}</td>
                   </tr>
@@ -97,19 +101,27 @@
               <div class="card text-white bg-secondary mb-3">
                 <div class="card-body">
                   <p class="card-text">
+                    <a class="text-white" href="${fileCommitHistoryItem.linkToLine}">
+                     ${fileCommitHistoryItem.lineNumber}
+                    </a>&nbsp;&nbsp;
                     ${fileCommitHistoryItem.theLine}
                   </p>
                 </div>
               </div>
 
-              <p class="card-text">
-                <b>Patch</b>
-              </p>
+
               <div class="card text-white bg-secondary mb-3">
-                <div class="card-body">
-                  <p class="card-text">
-                    <pre style="color:white">${fileCommitHistoryItem.commitFile.patch}</pre>
-                  </p>
+                <div class="card-header text-white">
+                  <a class="card-link text-white" data-toggle="collapse" href="#collapsePatch">
+                    <b>Patch (click to toggle)</b>
+                  </a>
+                </div>
+                <div id="collapsePatch" class="collapse hide">
+                  <div class="card-body">
+                    <p class="card-text">
+                      <pre style="color:white">${fileCommitHistoryItem.commitFile.patch}</pre>
+                    </p>
+                  </div>
                 </div>
               </div>
 
