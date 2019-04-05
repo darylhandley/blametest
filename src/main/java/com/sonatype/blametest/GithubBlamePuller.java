@@ -44,7 +44,6 @@ public class GithubBlamePuller {
         commitHash
     );
 
-    String authToken = Config.getGithubApiKey();
     HttpResponse<String> result = Unirest
         .get(url)
         .header("Authorization", "Bearer " + Constants.AUTH_TOKEN)
