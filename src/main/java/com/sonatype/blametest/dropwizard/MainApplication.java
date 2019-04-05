@@ -9,9 +9,10 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 
-public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
+public class MainApplication
+    extends Application<MainConfiguration> {
   public static void main(String[] args) throws Exception {
-    new HelloWorldApplication().run(args);
+    new MainApplication().run(args);
   }
 
   @Override
@@ -20,13 +21,13 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
   }
 
   @Override
-  public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
+  public void initialize(Bootstrap<MainConfiguration> bootstrap) {
     bootstrap.addBundle(new ViewBundle<>());
     bootstrap.addBundle(new AssetsBundle("/assets/", "/assets"));
   }
 
   @Override
-  public void run(HelloWorldConfiguration configuration,
+  public void run(MainConfiguration configuration,
                   Environment environment) {
     final HelloWorldResource resource = new HelloWorldResource(
         configuration.getTemplate(),

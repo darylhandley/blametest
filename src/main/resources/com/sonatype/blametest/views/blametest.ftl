@@ -20,7 +20,7 @@
 
       <div class="card border-secondary mb-3">
         <div class="card-body">
-          <form action="/blame">
+          <form>
             <fieldset>
               <div class="form-group">
                 <label for="url">Url</label>

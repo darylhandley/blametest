@@ -17,7 +17,7 @@ import com.sonatype.blametest.models.githubgraphql.Blame;
 import com.sonatype.blametest.util.GithubUtil;
 import com.sonatype.blametest.views.BlameTestView;
 
-@Path("/blame")
+@Path("/")
 @Produces(MediaType.TEXT_HTML)
 public class BlameTestResource {
 
