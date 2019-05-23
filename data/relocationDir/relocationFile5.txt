@@ -1,4 +1,4 @@
-line 1 : This is the relocation test file, now called relocationFile4
+line 1 : This is the relocation test file, now called relocationFile5
 line 2
 line 3 : Some stuff here
 line 4 : more stuff here
